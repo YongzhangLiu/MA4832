@@ -11,3 +11,4 @@ loop		CMP	r6, #0
 		BGT	loop
 stop		B	stop		; stop program
 		END
+

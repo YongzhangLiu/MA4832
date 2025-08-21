@@ -9,7 +9,8 @@ Start
 		STR	r1, [r0]
 		VMOV.F	s0, #0x3F800000		; single =precision 1.0
 		VMOV.F	s1, s0
-		VADD.F	s2, s1, s0		;1.0 + 1.0 = ??
+		VADD.F	s1, s1, s0		;1.0 + 1.0 = ??
+		
 
 		END
 			
