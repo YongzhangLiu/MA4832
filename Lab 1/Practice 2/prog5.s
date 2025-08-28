@@ -10,4 +10,5 @@ Start
 		VMOV.F	s3, r3			; transfer from ARM to FPU
 		VLDR.F	s4, =6.0221415e23	; Avogadro's constant
 		VMOV.F	r4, s4			; transfer from FPU to ARM
+		NOP
 		END

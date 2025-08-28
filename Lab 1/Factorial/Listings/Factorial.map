@@ -5,7 +5,7 @@ Component: Arm Compiler for Embedded 6.24 Tool: armlink [5f371500]
 Section Cross References
 
     startup.o(RESET) refers to startup.o(STACK) for StackMem
-    startup.o(RESET) refers to prog5.o(prog5) for Start
+    startup.o(RESET) refers to factorial.o(Factorial) for Start
 
 
 ==============================================================================
@@ -25,12 +25,12 @@ Image Symbol Table
 
     Symbol Name                              Value     Ov Type        Size  Object(Section)
 
-    prog5.s                                  0x00000000   Number         0  prog5.o ABSOLUTE
+    Factorial.s                              0x00000000   Number         0  factorial.o ABSOLUTE
     startup.s                                0x00000000   Number         0  startup.o ABSOLUTE
     RESET                                    0x00000000   Section      644  startup.o(RESET)
     $v0                                      0x0000026c   Number         0  startup.o(RESET)
-    $v0                                      0x00000284   Number         0  prog5.o(prog5)
-    prog5                                    0x00000284   Section       36  prog5.o(prog5)
+    $v0                                      0x00000284   Number         0  factorial.o(Factorial)
+    Factorial                                0x00000284   Section       48  factorial.o(Factorial)
     StackMem                                 0x20000000   Data           0  startup.o(STACK)
     STACK                                    0x20000000   Section     1024  startup.o(STACK)
 
@@ -38,7 +38,7 @@ Image Symbol Table
 
     Symbol Name                              Value     Ov Type        Size  Object(Section)
 
-    BuildAttributes$$THM_ISAv4$E$P$D$K$B$S$7EM$VFPi3$EXTD16$VFPS$VFMA$PE$A:L22UL41UL21$X:L11$S22US41US21$IEEE1$~IW$USESV6$~STKCKD$USESV7$~SHL$OSPACE$EBA8$STANDARDLIB$PRES8$EABIv2 0x00000000   Number         0  anon$$obj.o ABSOLUTE
+    BuildAttributes$$THM_ISAv4$E$P$D$K$B$S$7EM$VFPi3$EXTD16$VFPS$VFMA$PE$A:L22UL41UL21$X:L11$S22US41US21$IEEE1$~IW$USESV6$~STKCKD$USESV7$~SHL$OSPACE$EBA8$STANDARDLIB$EABIv2 0x00000000   Number         0  anon$$obj.o ABSOLUTE
     __Vectors                                0x00000000   Data           0  startup.o(RESET)
     Reset_Handler                            0x0000026d   Thumb Code     0  startup.o(RESET)
     NMI_Handler                              0x00000271   Thumb Code     2  startup.o(RESET)
@@ -164,7 +164,7 @@ Image Symbol Table
     WideTimer5B_Handler                      0x00000283   Thumb Code     0  startup.o(RESET)
     uDMA_Error                               0x00000283   Thumb Code     0  startup.o(RESET)
     uDMA_Handler                             0x00000283   Thumb Code     0  startup.o(RESET)
-    Start                                    0x00000285   Thumb Code     0  prog5.o(prog5)
+    Start                                    0x00000285   Thumb Code     0  factorial.o(Factorial)
 
 
 
@@ -172,28 +172,23 @@ Image Symbol Table
 
 Memory Map of the image
 
-  Image Entry point : 0x0000026d
+  Image Entry point : 0x00000285
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x000002a8, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x00000000, Size: 0x000002b4, Max: 0x00040000, ABSOLUTE)
 
-    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x000002a8, Max: 0xffffffff, ABSOLUTE)
-
-    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
-
-    0x00000000   0x00000000   0x00000284   Code   RO            3  * RESET               startup.o
-    0x00000284   0x00000284   0x00000024   Code   RO           12  * prog5               prog5.o
-
-
-    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x000002a8, Size: 0x00000000, Max: 0xffffffff, ABSOLUTE)
-
-    **** No section assigned to this execution region ****
-
-
-    Execution Region ER_ZI (Exec base: 0x20000000, Load base: 0x000002a8, Size: 0x00000400, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x000002b4, Max: 0x00040000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000        -       0x00000400   Zero   RW            1    STACK               startup.o
+    0x00000000   0x00000000   0x00000284   Code   RO            8    RESET               startup.o
+    0x00000284   0x00000284   0x00000030   Code   RO            1  * Factorial           factorial.o
+
+
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x000002b4, Size: 0x00000400, Max: 0x00008000, ABSOLUTE)
+
+    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x20000000        -       0x00000400   Zero   RW            6    STACK               startup.o
 
 
 ==============================================================================
@@ -203,11 +198,11 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-        36          8          0          0          0        208   prog5.o
-       644        620          0          0       1024        772   startup.o
+        48          0          0          0          0        252   factorial.o
+       644        620          0          0       1024        740   startup.o
 
     ----------------------------------------------------------------------
-       680        628          0          0       1024        980   Object Totals
+       692        620          0          0       1024        992   Object Totals
          0          0          0          0          0          0   (incl. Generated)
          0          0          0          0          0          0   (incl. Padding)
 
@@ -222,15 +217,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-       680        628          0          0       1024        980   Grand Totals
-       680        628          0          0       1024        980   ELF Image Totals
-       680        628          0          0          0          0   ROM Totals
+       692        620          0          0       1024        992   Grand Totals
+       692        620          0          0       1024        992   ELF Image Totals
+       692        620          0          0          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                  680 (   0.66kB)
+    Total RO  Size (Code + RO Data)                  692 (   0.68kB)
     Total RW  Size (RW Data + ZI Data)              1024 (   1.00kB)
-    Total ROM Size (Code + RO Data + RW Data)        680 (   0.66kB)
+    Total ROM Size (Code + RO Data + RW Data)        692 (   0.68kB)
 
 ==============================================================================
 

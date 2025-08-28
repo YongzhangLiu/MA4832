@@ -2,7 +2,7 @@
 		AREA prog2, CODE, READONLY
 Start
 		ENTRY
-		
+		; calculate factorial of a number via iteration
 		MOV	r6, #10		; load n into r6
 		MOV	r7, #1		; if n=0, n!=1
 loop		CMP	r6, #0

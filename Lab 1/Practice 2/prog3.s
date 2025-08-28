@@ -2,7 +2,7 @@
 		AREA prog3, CODE, READONLY
 Start
 		ENTRY
-		
+		; Triple XOR trick to swap register content
 		LDR r0, =0xF631024C	; load some data
 		LDR r1, =0x17539ABD	; load some data
 		EOR r0, r0, r1		; r0 XOR r1, store r0
